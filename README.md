@@ -1,1 +1,1 @@
-# excercism_sync
+# exercism_sync
