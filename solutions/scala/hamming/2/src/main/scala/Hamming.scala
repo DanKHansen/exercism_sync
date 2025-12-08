@@ -1,8 +1,7 @@
-object Hamming {
+object Hamming:
+  def distance(dnaStrandOne: String, dnaStrandTwo: String): Option[Int] =
 
-  def distance(s1: String, s2: String): Option[Int] = {
-    if (s1.length != s2.length) None
-    else Some(s1.zip(s2).map(c => c._1 == c._2).count(_ == false))
-  }
-
-}
+    (dnaStrandOne, dnaStrandTwo) match
+      case (d1, d2) if d1.length == d2.length =>
+        Some(d1.zip(d2).count { case (a, b) => a != b })
+      case _ => None
