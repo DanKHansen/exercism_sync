@@ -1,9 +1,12 @@
-object Bob {
-  def response(statement: String): String = statement match {
-    case s if s == s.toUpperCase && !s.endsWith("?") && !s.filter(_.isLetter).isEmpty => "Whoa, chill out!"
-    case s if s != s.toUpperCase && s.trim.endsWith("?") || s.filter(_.isLetter).isEmpty && s.endsWith("?") => "Sure."
-    case s if s == s.toUpperCase && s.endsWith("?") => "Calm down, I know what I'm doing!"
-    case s if s.isEmpty || s.trim.isEmpty => "Fine. Be that way!"
-    case _ => "Whatever."
-  }
-}
+object Bob:
+  def response(statement: String): String =
+    val s = statement.trim
+    if s.isEmpty then return "Fine. Be that way!"
+    val isYelling = s.exists(_.isLetter) && s.toUpperCase == s
+    val isQuestion = s.last == '?'
+
+    (isQuestion, isYelling) match
+      case (true, true) => "Calm down, I know what I'm doing!"
+      case (_, true)    => "Whoa, chill out!"
+      case (true, _)    => "Sure."
+      case _            => "Whatever."
