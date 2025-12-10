@@ -1,14 +1,9 @@
-object Bob {
-  def response(statement: String): String = statement match {
-    // Shouting -> all caps + not ends with ? + only letter
-    case s if (s == s.toUpperCase && !s.endsWith("?")) && !s.filter(_.isLetter).isEmpty => "Whoa, chill out!"
-    // Asking question -> not uppercase ending with ? + trimmed ends with ?
-    case s if s != s.toUpperCase && s.trim.endsWith("?") || (s.filter(_.isLetter).isEmpty && s.endsWith("?")) => "Sure."
-    // forceful question -> all caps + ending with ?
-    case s if s == s.toUpperCase && s.endsWith("?") => "Calm down, I know what I'm doing!"
-    // silence -> empty or multiple " "
-    case s if s.isEmpty || s.trim.isEmpty => "Fine. Be that way!"
-    // Otherwise....
-    case _ => "Whatever."
-  }
-}
+object Bob:
+  def response(statement: String): String =
+    statement.trim match
+      case s if s.isEmpty => "Fine. Be that way!"
+      case s if s.exists(_.isLetter) && !s.exists(_.isLower) =>
+        if s.endsWith("?") then "Calm down, I know what I'm doing!"
+        else "Whoa, chill out!"
+      case s if s.endsWith("?") => "Sure."
+      case _                    => "Whatever."
