@@ -1,34 +1,7 @@
-import scala.annotation.tailrec
+object SecretHandshake:
+  private val signs =
+    Map(1 -> "wink", 2 -> "double blink", 4 -> "close your eyes", 8 -> "jump")
 
-object SecretHandshake {
-  val wordList: List[String] =
-    List("wink", "double blink", "close your eyes", "jump")
-
-  def commands(i: Int): List[String] = {
-    if (i > 31) Nil
-    else
-      loop(i.toBinaryString.reverse, Nil, 0)
-  }
-
-  @tailrec
-  private def loop(
-      binStr: String,
-      buffer: List[String],
-      idx: Int
-  ): List[String] = {
-    val result = {
-      if (idx == 4) buffer.reverse
-      else
-        binStr.head match {
-          case '1' => buffer :+ wordList(idx)
-          case _   => buffer
-        }
-    }
-    if (binStr.tail.nonEmpty) {
-      loop(binStr.tail, result, idx + 1)
-    } else {
-      result
-    }
-
-  }
-}
+  def commands(i: Int): List[String] =
+    val s = signs.collect { case (k, v) if (i & k) != 0 => v }.toList
+    if (i & 16) != 0 then s.reverse else s
