@@ -1,24 +1,14 @@
-class School {
+class School:
+  private type DB = Map[Int, Seq[String]]
 
-  type DB = Map[Int, Seq[String]]
-  var rooster: DB = Map(0 -> Seq("")).init
+  private var gradeDB: DB = Map.empty
 
-  def add(name: String, g: Int): Unit = {
-    if (rooster.isEmpty || !rooster.keySet.contains(g)) rooster = rooster + (g -> Seq(name))
-    else {
-      rooster = rooster.updated(g, rooster.values.head ++ Seq(name))
-    }
-  }
+  def add(name: String, g: Int): Unit = gradeDB =
+    gradeDB.updated(g, grade(g) :+ name)
 
-  def db: DB = rooster
+  def db: DB = gradeDB
 
-  def grade(g: Int): Seq[String] = {
-    if (rooster.keySet.contains(g)) rooster.filter(x => x._1 == g).values.last
-    else Seq()
-  }
+  def grade(g: Int): Seq[String] = gradeDB.getOrElse(g, Seq.empty)
 
-  def sorted: DB = {
-    rooster.map(m => m._1 -> m._2.sorted).toSeq.sortBy(k => k._1).toMap
-  }
-
-}
+  def sorted: DB =
+    gradeDB.toSeq.sorted.toMap.map { case (k, v) => (k, v.sorted) }
