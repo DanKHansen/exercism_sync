@@ -1,9 +1,7 @@
-import scala.math.pow
+object ArmstrongNumbers:
 
-object ArmstrongNumbers {
-  def isArmstrongNumber(i: Int): Boolean = {
-    val p: Int = i.toString.length
-    val l: List[Int] = i.toString.toList.map(_.toString.toInt)
-    i == l.map(pow(_, p)).sum
-  }
-}
+  def isArmstrongNumber(n: Int): Boolean =
+    n.toString.toList
+      .map(c => math.pow(c.asDigit, n.toString.length).toInt)
+      .sum
+      == n
